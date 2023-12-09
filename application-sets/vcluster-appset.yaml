@@ -19,7 +19,7 @@ spec:
           - namespace: team-c
   template:      
     metadata:
-      name: '{{.path.basename}}-{{namespace}}'
+      name: '{{path.basename}}-{{namespace}}'
     spec:
       # The project the application belongs to.
       project: default
