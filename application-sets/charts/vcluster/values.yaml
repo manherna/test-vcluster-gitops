@@ -1,0 +1,5 @@
+vcluster:
+  vcluster:
+  image: rancher/k3s:v1.28.2-k3s1
+  storage:
+    size: 2Gi
