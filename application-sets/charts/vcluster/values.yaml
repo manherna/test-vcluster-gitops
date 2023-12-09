@@ -1,5 +1,6 @@
 vcluster:
+  # Targeting vcluster chart inside vcluster parent chart
   vcluster:
-  image: rancher/k3s:v1.28.2-k3s1
-  storage:
-    size: 2Gi
+    image: rancher/k3s:v1.28.2-k3s1
+    storage:
+      size: 2Gi
