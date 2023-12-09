@@ -1,6 +1,4 @@
 vcluster:
-  namespace: 
-  image: rancher/k3s:v1.23.5-k3s1 
   sync:
     ingresses:
       enabled: true
