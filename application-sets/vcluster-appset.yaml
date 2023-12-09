@@ -5,14 +5,20 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - namespace: team-a
-      - namespace: team-b
-      - namespace: team-c
+  - matrix:
+    generators:
+    - git:
+        repoURL: https://github.com/manherna/test-vcluster-gitops.git
+        targetRevision: HEAD
+        path: ./application-sets/charts/*
+    - list:
+        elements:
+        - namespace: team-a
+        - namespace: team-b
+        - namespace: team-c
   template:      
     metadata:
-      name: '{{namespace}}-vcluster'
+      name: '{{.path.basename}}-{{namespace}}'
     spec:
       # The project the application belongs to.
       project: default
@@ -21,7 +27,7 @@ spec:
       source:
         repoURL: https://github.com/manherna/test-vcluster-gitops.git
         targetRevision: HEAD
-        path: ./application-sets/charts/
+        path: {{path.path}}
       
       # Destination cluster and namespace to deploy the application
       destination:
