@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: billing-application-set
+  name: vcluster-application-set
   namespace: argocd
 spec:
   generators:
@@ -21,7 +21,7 @@ spec:
       source:
         repoURL: https://github.com/manherna/test-vcluster-gitops.git
         targetRevision: HEAD
-        path: ./application-sets/charts/*
+        path: ./application-sets/charts/
       
       # Destination cluster and namespace to deploy the application
       destination:
