@@ -1,7 +1,0 @@
-vcluster:
-  vcluster:
-    image: rancher/k3s:v1.25.16-k3s4-amd64
-  sync:
-    ingresses:
-      enabled: true
-  
