@@ -7,16 +7,16 @@ spec:
   generators:
   - matrix:
       generators:
-        - git:
-            repoURL: https://github.com/manherna/test-vcluster-gitops.git
-            targetRevision: HEAD
-            directories:
-              - path: ./application-sets/charts/*
-        - list:
-            elements:
-            - namespace: team-a
-            - namespace: team-b
-            - namespace: team-c
+      - git:
+          repoURL: https://github.com/manherna/test-vcluster-gitops.git
+          targetRevision: HEAD
+          directories:
+            - path: application-sets/charts/*
+      - list:
+          elements:
+          - namespace: team-a
+          - namespace: team-b
+          - namespace: team-c
   template:      
     metadata:
       name: '{{.path.basename}}-{{namespace}}'
