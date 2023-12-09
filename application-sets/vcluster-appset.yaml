@@ -9,7 +9,7 @@ spec:
       generators:
       - git:
           repoURL: https://github.com/manherna/test-vcluster-gitops.git
-          targetRevision: HEAD
+          revision: HEAD
           directories:
             - path: application-sets/charts/*
       - list:
