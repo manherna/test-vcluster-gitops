@@ -35,7 +35,7 @@ spec:
             - name: ingress.host
               value: '{{namespace}}.kind.argocd.example.com'
             - name: namespace.name
-              value: '{{namespace}}'
+              value: '{{path.basename}}-{{namespace}}'
       # Destination cluster and namespace to deploy the application
       destination:
         server: https://kubernetes.default.svc
