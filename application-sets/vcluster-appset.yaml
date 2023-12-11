@@ -29,11 +29,11 @@ spec:
         helm:
           parameters:
             - name: 'vcluster.syncer.extraArgs[0]'
-              value: '--tls-san={{namespace}}.kind.argocd.example.com'
+              value: '--tls-san={{namespace}}.argocd.kind.example.com'
             - name: ingress.clusterIssuer
               value: letsencrypt-dns
             - name: ingress.host
-              value: '{{namespace}}.kind.argocd.example.com'
+              value: '{{namespace}}.argocd.kind.example.com'
             - name: namespace.name
               value: '{{path.basename}}-{{namespace}}'
       # Destination cluster and namespace to deploy the application

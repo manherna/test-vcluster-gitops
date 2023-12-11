@@ -37,3 +37,14 @@
     # standards, limit ranges and resource quotas
     isolation:
       enabled: true
+    init:
+      helm:
+        - chart:
+            name: cert-manager
+            repo: https://charts.jetstack.io
+            version: v1.13.2
+          values: |-
+                    installCRDs: true
+          release:
+            name: cert-manager
+            namespace: cert-manager
