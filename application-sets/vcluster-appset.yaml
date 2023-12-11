@@ -26,7 +26,16 @@ spec:
         repoURL: https://github.com/manherna/test-vcluster-gitops.git
         targetRevision: HEAD
         path: '{{path}}'
-      
+        helm:
+          parameters:
+            - name: 'vcluster.syncer.extraArgs[0]'
+              value: '--tls-san={{namespace}}.kind.argocd.example.com'
+            - name: ingress.clusterIssuer
+              value: letsencrypt-dns
+            - name: ingress.host
+              value: '{{namespace}}.kind.argocd.example.com'
+            - name: namespace.name
+              value: '{{namespace}}'
       # Destination cluster and namespace to deploy the application
       destination:
         server: https://kubernetes.default.svc
