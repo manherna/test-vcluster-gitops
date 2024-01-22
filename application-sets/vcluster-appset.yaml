@@ -11,10 +11,11 @@ spec:
           repoURL: https://github.com/manherna/test-vcluster-gitops.git
           revision: HEAD
           directories:
-            - path: application-sets/charts/*
+            - path: ./charts/*
       - list:
           elements:
           - namespace: team-a
+          - namespace: team-b
   template:      
     metadata:
       name: '{{path.basename}}-{{namespace}}'
