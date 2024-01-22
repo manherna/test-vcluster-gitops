@@ -5,17 +5,12 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - matrix:
-        generators:
-          - pullRequest:
-              github:
-              # The GitHub organization or user.
-              owner: manherna
-              # The Github repository
-              repo: test-vcluster-gitops
-          - list:
-              elements:
-                - namespace: team-c
+    - pullRequest:
+        github:
+          # The GitHub organization or user.
+          owner: manherna
+          # The Github repository
+          repo: test-vcluster-gitops
   template:
     metadata:
       name: 'vcluster-{{branch_slug}}-{{number}}'
