@@ -27,15 +27,15 @@
       extraArgs:
         - --tls-san=vcluster-k0s.argocd.kind.example.com
 
-    # Configure SecurityContext of the containers in the VCluster pod
-    securityContext:
-      runAsUser: 12345
-      runAsGroup: 12345
-      runAsNonRoot: true
-
-    # Configure fsGroup
-    # The field is specified, all processes of the container are also part of the supplementary group ID 12345
-    fsGroup: 12345
+    ## Configure SecurityContext of the containers in the VCluster pod
+    #securityContext:
+    #  runAsUser: 12345
+    #  runAsGroup: 12345
+    #  runAsNonRoot: true
+#
+    ## Configure fsGroup
+    ## The field is specified, all processes of the container are also part of the supplementary group ID 12345
+    #fsGroup: 12345
 
   init:
     helm:
