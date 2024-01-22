@@ -2,21 +2,25 @@
     name: vcluster-k3s 
   
   ingress:
+    # Enable ingress record generation
     enabled: true
-    host: vcluster-k3s.argocd.kind.example.com
-    clusterIssuer: cert-manager
+    # Ingress path type
+    pathType: ImplementationSpecific
+    ingressClassName: ""
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Ingress TLS configuration
+    tls: []
+      # - secretName: tls-vcluster.local
+      #   hosts:
+      #     - vcluster.local
 
   vcluster:
     image: rancher/k3s:v1.28.2-k3s1
     storage:
-      size: 2Gi
-    # Resource syncers that should be enabled/disabled.
-    # Enabling syncers will impact RBAC Role and ClusterRole permissions.
-    # To disable a syncer set "enabled: false".
-    # See docs for details - https://www.vcluster.com/docs/architecture/synced-resources
-    sync:
-      ingresses:
-        enabled: true
+      size: 1Gi
 
     # Syncer configuration
     syncer:
@@ -33,18 +37,70 @@
     # The field is specified, all processes of the container are also part of the supplementary group ID 12345
     fsGroup: 12345
 
-    # If enabled will deploy vcluster in an isolated mode with pod security
-    # standards, limit ranges and resource quotas
-    isolation:
-      enabled: true
-    init:
-      helm:
-        - chart:
-            name: cert-manager
-            repo: https://charts.jetstack.io
-            version: v1.13.2
-          values: |-
-                    installCRDs: true
-          release:
-            name: cert-manager
-            namespace: cert-manager
+  init:
+    helm:
+    - chart:
+        name: cert-manager
+        repo: https://charts.jetstack.io
+      # optional field
+      values: |-
+        replicaCount: 1
+        installCRDs: true
+        
+      release:
+        name: cert-manager
+        namespace: kube-system
+      
+    - chart:
+        name: ingress-nginx
+        repo: https://kubernetes.github.io/ingress-nginx
+      # optional field
+      values: |-
+        affinity:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                  - key: app.kubernetes.io/component
+                    operator: In
+                    values:
+                    - controller
+                topologyKey: topology.kubernetes.io/zone
+              weight: 100
+        controller:
+          containerPort:
+            http: 3008
+            https: 3044
+          extraArgs:
+            http-port: 3008
+            https-port: 3044
+          hostNetwork: false
+          image:
+            allowPrivilegeEscalation: false
+          ingressClassResource:
+            controllerValue: k8s.io/ingress-nginx
+            default: true
+            enabled: true
+            name: vcluster-nginx
+          metrics:
+            enabled: true
+            service:
+              annotations:
+                prometheus.io/port: "10254"
+                prometheus.io/scrape: "true"
+          replicaCount: 2
+          service:
+            annotations:
+              external-dns.alpha.kubernetes.io/hostname: sample-app.$VCLUSTER_URL
+            enabled: true
+            type: LoadBalancer
+          config:
+            use-proxy-protocol: "false"
+        nameOverride: custom
+      release:
+        name: ingress-nginx
+        namespace: ingress-nginx
+
+
+    
