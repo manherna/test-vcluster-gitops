@@ -1,5 +1,5 @@
   namespace:
-    name: vcluster-k3s 
+    name: vcluster-k0s
   
   ingress:
     # Enable ingress record generation
@@ -18,14 +18,14 @@
       #     - vcluster.local
 
   vcluster:
-    image: rancher/k3s:v1.28.2-k3s1
+    image: k0sproject/k0s:v1.28.2-k0s.0
     storage:
       size: 1Gi
 
     # Syncer configuration
     syncer:
       extraArgs:
-        - --tls-san=vcluster-k3s.argocd.kind.example.com
+        - --tls-san=vcluster-k0s.argocd.kind.example.com
 
     # Configure SecurityContext of the containers in the VCluster pod
     securityContext:
@@ -46,7 +46,7 @@
       values: |-
         replicaCount: 1
         installCRDs: true
-        
+
       release:
         name: cert-manager
         namespace: kube-system
