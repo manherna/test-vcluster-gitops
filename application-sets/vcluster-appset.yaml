@@ -11,7 +11,7 @@ spec:
           repoURL: https://github.com/manherna/test-vcluster-gitops.git
           revision: HEAD
           directories:
-            - path: ./charts/*
+            - path: charts/*
       - list:
           elements:
           - namespace: team-a
