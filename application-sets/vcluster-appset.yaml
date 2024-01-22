@@ -13,7 +13,7 @@ spec:
           repo: test-vcluster-gitops
   template:
     metadata:
-      name: 'vcluster-{{branch_slug}}-{{number}}'
+      name: 'vc-{{branch_slug}}-{{number}}'
     spec:
       # The project the application belongs to.
       project: default
