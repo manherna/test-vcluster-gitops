@@ -5,47 +5,47 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - matrix:
-      generators:
-      - git:
-          repoURL: https://github.com/manherna/test-vcluster-gitops.git
-          revision: HEAD
-          directories:
-            - path: charts/*
-      - list:
-          elements:
-          - namespace: team-c
-  template:      
+    - matrix:
+        generators:
+          - pullRequest:
+              github:
+              # The GitHub organization or user.
+              owner: manherna
+              # The Github repository
+              repo: test-vcluster-gitops
+          - list:
+              elements:
+                - namespace: team-c
+  template:
     metadata:
-      name: '{{path.basename}}-{{namespace}}'
+      name: 'vcluster-{{branch_slug}}-{{number}}'
     spec:
       # The project the application belongs to.
       project: default
       # Source of the application manifests
       source:
         repoURL: https://github.com/manherna/test-vcluster-gitops.git
-        targetRevision: HEAD
-        path: '{{path}}'
+        targetRevision: '{{head_sha}}'
+        path: "{{path}}"
         helm:
           parameters:
-            - name: 'vcluster.syncer.extraArgs[0]'
-              value: '--tls-san={{namespace}}.argocd.kind.example.com'
+            - name: "vcluster.syncer.extraArgs[0]"
+              value: "--tls-san={{branch_slug}}.argocd.kind.example.com"
             - name: ingress.clusterIssuer
               value: letsencrypt-dns
             - name: ingress.host
-              value: '{{namespace}}.argocd.kind.example.com'
+              value: "{{branch_slug}}.argocd.kind.example.com"
             - name: namespace.name
-              value: '{{path.basename}}-{{namespace}}'
+              value: "{{branch_slug}-{{number}}"
       # Destination cluster and namespace to deploy the application
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path.basename}}-{{namespace}}'
+        namespace: "{{path.basename}}-{{namespace}}"
 
       # Sync policy
       syncPolicy:
         syncOptions:
-          - CreateNamespace=true  
+          - CreateNamespace=true
         automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
           prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
           selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
-      
