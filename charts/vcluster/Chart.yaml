@@ -23,6 +23,6 @@ version: 0.0.1
 # It is recommended to use it with quotes.
 appVersion: "0.0.1"
 dependencies:
-- name: vcluster/vcluster-k0s
+- name: vcluster-k0s
   version: "0.18.*"
   repository: "https://charts.loft.sh"
