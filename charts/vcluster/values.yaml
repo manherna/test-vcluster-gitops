@@ -91,7 +91,7 @@
           replicaCount: 2
           service:
             annotations:
-              external-dns.alpha.kubernetes.io/hostname: sample-app.$VCLUSTER_URL
+              external-dns.alpha.kubernetes.io/hostname: sample-app.{{ .Values.ingress.host }}
             enabled: true
             type: LoadBalancer
           config:
