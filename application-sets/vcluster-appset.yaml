@@ -31,7 +31,7 @@ spec:
       # Source of the application manifests
       source:
         repoURL: https://github.com/manherna/test-vcluster-gitops.git
-        targetRevision: '{{head_sha}}'
+        targetRevision: 'HEAD'
         path: ./charts/vcluster
         helm:
           parameters:
