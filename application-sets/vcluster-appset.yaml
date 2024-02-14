@@ -46,6 +46,7 @@ spec:
         targetRevision: 'HEAD'
         path: ./charts/vcluster
         helm:
+          releaseName: "{{.vclusterName}}-{{.number}}"
           parameters:
             - name: "vcluster.syncer.extraArgs[0]"
               value: "--tls-san={{.vclusterName}}-{{.number}}.argocd.kind.example.com"
