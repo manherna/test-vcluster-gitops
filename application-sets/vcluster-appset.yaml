@@ -32,7 +32,7 @@ spec:
       source:
         repoURL: https://github.com/manherna/test-vcluster-gitops.git
         targetRevision: '{{head_sha}}'
-        path: "{{path}}"
+        path: "{{ .path }}"
         helm:
           parameters:
             - name: "vcluster.syncer.extraArgs[0]"
