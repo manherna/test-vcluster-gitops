@@ -23,8 +23,8 @@ spec:
   template:
     metadata:
       name: 'vc-{{.vclusterName}}-{{.number}}'
-    labels: 
-      test: '{{ . | print }}'
+    annotations:
+      example.com/my-annotation: '{{ print . }}'
     spec:
       # The project the application belongs to.
       project: default
@@ -32,7 +32,7 @@ spec:
       source:
         repoURL: https://github.com/manherna/test-vcluster-gitops.git
         targetRevision: '{{head_sha}}'
-        path: "{{ .path }}"
+        path: ./charts/vcluster
         helm:
           parameters:
             - name: "vcluster.syncer.extraArgs[0]"
