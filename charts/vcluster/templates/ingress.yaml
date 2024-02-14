@@ -11,8 +11,8 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     cert-manager.io/cluster-issuer: {{ .Values.ingress.clusterIssuer }}
-  name: {{ .Values.namespace.name  }}-ingress
-  namespace: {{ .Values.namespace.name  }}
+  name: {{ .Release.Name  }}-ingress
+  namespace: {{ Release.Namespace  }}
 spec:
   ingressClassName: nginx # use your ingress class name
   tls:
