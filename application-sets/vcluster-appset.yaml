@@ -18,11 +18,11 @@ spec:
             requeueAfterSeconds: 20
         - list:
            elements:
-             - vcluster-name: test-vcluster
+             - vclusterName: test-vcluster
 
   template:
     metadata:
-      name: 'vc-{{.vcluster-name}}-{{number}}'
+      name: 'vc-{{.vclusterName}}-{{number}}'
     spec:
       # The project the application belongs to.
       project: default
@@ -34,15 +34,15 @@ spec:
         helm:
           parameters:
             - name: "vcluster.syncer.extraArgs[0]"
-              value: "--tls-san={{.vcluster-name}}-{{number}}.argocd.kind.example.com"
+              value: "--tls-san={{.vclusterName}}-{{number}}.argocd.kind.example.com"
             - name: ingress.clusterIssuer
               value: letsencrypt-dns
             - name: ingress.host
-              value: "{{.vcluster-name}}-{{number}}.argocd.kind.example.com"
+              value: "{{.vclusterName}}-{{number}}.argocd.kind.example.com"
       # Destination cluster and namespace to deploy the application
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{.vcluster-name}}-{{number}}"
+        namespace: "{{.vclusterName}}-{{number}}"
 
       # Sync policy
       syncPolicy:
