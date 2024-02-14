@@ -5,15 +5,22 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - pullRequest:
-        github:
-          # The GitHub organization or user.
-          owner: manherna
-          # The Github repository
-          repo: test-vcluster-gitops
+  - matrix:
+      generators:
+        - pullRequest:
+            github:
+              # The GitHub organization or user.
+              owner: manherna
+              # The Github repository
+              repo: test-vcluster-gitops
+            requeueAfterSeconds: 20
+        - list:
+           elements:
+             - namio: "test-vcluster"
+
   template:
     metadata:
-      name: 'vcluster-{{branch_slug}}-{{number}}'
+      name: 'vc-{{.namio}}-{{number}}'
     spec:
       # The project the application belongs to.
       project: default
@@ -25,17 +32,15 @@ spec:
         helm:
           parameters:
             - name: "vcluster.syncer.extraArgs[0]"
-              value: "--tls-san={{branch_slug}}.argocd.kind.example.com"
+              value: "--tls-san={{.namio}}-{{number}}.argocd.kind.example.com"
             - name: ingress.clusterIssuer
               value: letsencrypt-dns
             - name: ingress.host
-              value: "{{branch_slug}}.argocd.kind.example.com"
-            - name: namespace.name
-              value: "{{branch_slug}-{{number}}"
+              value: "{{.namio}}-{{number}}.argocd.kind.example.com"
       # Destination cluster and namespace to deploy the application
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{path.basename}}-{{namespace}}"
+        namespace: "{{.namio}}-{{number}}"
 
       # Sync policy
       syncPolicy:
