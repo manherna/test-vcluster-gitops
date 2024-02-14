@@ -19,6 +19,18 @@ spec:
         - list:
            elements:
              - vclusterName: test-vcluster
+  - matrix:
+      generators:
+        - pullRequest:
+            github:
+              # The GitHub organization or user.
+              owner: manherna
+              # The Github repository
+              repo: test-vcluster-gitops
+            requeueAfterSeconds: 20
+        - list:
+           elements:
+             - vclusterName: tost-vcluster
 
   template:
     metadata:
