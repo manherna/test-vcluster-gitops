@@ -23,8 +23,14 @@ spec:
            elements:
              - vclusterName: test-vcluster
       template:
-        spec:
-          source: 'HEAD'
+          metadata: {}
+          spec:
+            destination: {}
+            project: ""
+            source:
+              targetRevision: 'HEAD'
+              repoURL: ""
+              helm: {}
   - matrix:
       generators:
         - pullRequest:
@@ -41,9 +47,14 @@ spec:
            elements:
              - vclusterName: tost-vcluster
       template:
-        spec:
-          source:
-            targetRevision: '{{ .head_sha }}'
+          metadata: {}
+          spec:
+            destination: {}
+            project: ""
+            source:
+              targetRevision: '{{ .head_sha }}'
+              repoURL: ""
+              helm: {}
 
   template:
     metadata:
