@@ -22,9 +22,9 @@ spec:
         - list:
            elements:
              - vclusterName: test-vcluster
-    template:
-      spec:
-        source: 'HEAD'
+      template:
+        spec:
+          source: 'HEAD'
   - matrix:
       generators:
         - pullRequest:
@@ -40,10 +40,10 @@ spec:
         - list:
            elements:
              - vclusterName: tost-vcluster
-    template:
-      spec:
-        source:
-          targetRevision: '{{ .head_sha }}'
+      template:
+        spec:
+          source:
+            targetRevision: '{{ .head_sha }}'
 
   template:
     metadata:
