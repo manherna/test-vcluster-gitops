@@ -15,7 +15,10 @@ spec:
               owner: manherna
               # The Github repository
               repo: test-vcluster-gitops
-            requeueAfterSeconds: 20
+              tokenRef:
+                secretName: github-token
+                key: token
+            requeueAfterSeconds: 120
         - list:
            elements:
              - vclusterName: test-vcluster
@@ -30,6 +33,9 @@ spec:
               owner: manherna
               # The Github repository
               repo: test-vcluster-gitops
+              tokenRef:
+                secretName: github-token
+                key: token
             requeueAfterSeconds: 120
         - list:
            elements:
