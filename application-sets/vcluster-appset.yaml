@@ -21,7 +21,7 @@ spec:
              - vclusterName: test-vcluster
     template:
       spec:
-        targetRevision: 'HEAD'
+        source: 'HEAD'
   - matrix:
       generators:
         - pullRequest:
@@ -36,7 +36,8 @@ spec:
              - vclusterName: tost-vcluster
     template:
       spec:
-        targetRevision: '{{ .head_sha }}'
+        source:
+          targetRevision: '{{ .head_sha }}'
 
   template:
     metadata:
