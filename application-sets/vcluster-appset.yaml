@@ -19,6 +19,7 @@ spec:
         - list:
            elements:
              - vclusterName: test-vcluster
+             - revision: 'HEAD'
   - matrix:
       generators:
         - pullRequest:
@@ -31,6 +32,7 @@ spec:
         - list:
            elements:
              - vclusterName: tost-vcluster
+             - revision: '{{ .head_sha }}'
 
   template:
     metadata:
@@ -43,7 +45,7 @@ spec:
       # Source of the application manifests
       source:
         repoURL: https://github.com/manherna/test-vcluster-gitops.git
-        targetRevision: {{ if eq .vclusterName "tost-vcluster" }}{{ .head_sha }}{{ else }}'HEAD'{{end}}
+        targetRevision: {{ .revision }}
         path: ./charts/vcluster
         helm:
           releaseName: "{{.vclusterName}}-{{.number}}"
