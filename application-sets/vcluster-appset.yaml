@@ -43,7 +43,11 @@ spec:
       # Source of the application manifests
       source:
         repoURL: https://github.com/manherna/test-vcluster-gitops.git
+        {{- if eq .vclusterName "tost-vcluster"}}
+        targetRevision: {{ .head_sha }}
+        {{- else }}
         targetRevision: 'HEAD'
+        {{- end }}
         path: ./charts/vcluster
         helm:
           releaseName: "{{.vclusterName}}-{{.number}}"
