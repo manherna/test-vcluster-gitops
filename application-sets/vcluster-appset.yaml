@@ -27,7 +27,7 @@ spec:
               owner: manherna
               # The Github repository
               repo: test-vcluster-gitops
-            requeueAfterSeconds: 20
+            requeueAfterSeconds: 120
         - list:
            elements:
              - vclusterName: tost-vcluster
@@ -43,11 +43,7 @@ spec:
       # Source of the application manifests
       source:
         repoURL: https://github.com/manherna/test-vcluster-gitops.git
-        {{- if eq .vclusterName "tost-vcluster"}}
-        targetRevision: {{ .head_sha }}
-        {{- else }}
-        targetRevision: 'HEAD'
-        {{- end }}
+        targetRevision: {{ if eq .vclusterName "tost-vcluster" }}{{ .head_sha }}{{ else }}'HEAD'{{end}}
         path: ./charts/vcluster
         helm:
           releaseName: "{{.vclusterName}}-{{.number}}"
